@@ -6,7 +6,8 @@
     "node": "^17.7.2"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "seed": "node db/seeds.js"
   },
   "name": "employee_tracker",
   "description": "",
