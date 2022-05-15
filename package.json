@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "express": "^4.18.1",
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.3.3",
+    "node": "^17.7.2"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "employee_tracker",
+  "description": "",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spence22eric/Employee_tracker.git"
+  },
+  "author": "Eric",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spence22eric/Employee_tracker/issues"
+  },
+  "homepage": "https://github.com/spence22eric/Employee_tracker#readme"
+}
