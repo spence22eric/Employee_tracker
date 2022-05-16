@@ -6,13 +6,8 @@ const db = mysql.createConnection({
     database: 'employees_db'
 });
 
-db.connect(err => {
-    if (err) throw err;
-    console.log('Database connected.');    
-});
-
 function insertDepartment() {
     const sql = `INSERT INTO department `
 }
 
-modules.export = db;
+module.exports = db;
