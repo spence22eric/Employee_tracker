@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../../db/connection');
 const inputCheck = require('../../utils/inputCheck');
 
+// get all departments
 router.get('/departments', (req, res) => {
     const sql = `SELECT * FROM department ORDER BY name`
 
@@ -18,6 +19,7 @@ router.get('/departments', (req, res) => {
     });
 });
 
+// get single department
 router.get('/department/:id', (req, res) => {
     const sql = `SELECT * FROM department WHERE id=?`;
     const params = [req.params.id];
@@ -34,6 +36,7 @@ router.get('/department/:id', (req, res) => {
     })
 });
 
+// create a department
 router.post('/department', ({ body }, res) => {
     const errors = inputCheck(
         body,
@@ -58,6 +61,34 @@ router.post('/department', ({ body }, res) => {
             message: 'success',
             data: body
         });
+    });
+});
+
+// update a department
+router.put('/department/:id', (req, res) => {
+    const errors = inputCheck(req.body, 'name');
+    if (errors) {
+        res.status(400).json({ error: errors });
+        return;
+    }
+
+    const sql = `UPDATE department SET name = ? WHERE id = ?`;
+    const params = [req.body.name, req.params.id];
+
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.status(400).json({ error: err.message });
+        } else if (!result.affectedRows) {
+            res.json({
+                message: 'department not found'
+            });
+        } else {
+            res.json({
+                message: 'success',
+                data: req.body,
+                changes: result.affectedRows
+            });
+        }
     });
 });
 
