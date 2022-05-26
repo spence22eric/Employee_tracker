@@ -40,7 +40,7 @@ router.post('/role', ({ body }, res) => {
     const errors = inputCheck(
         body,
         'title',
-        'salary',        
+        'salary',
     );
     if (errors) {
         res.status(400).json({ error: errors });
@@ -63,6 +63,43 @@ router.post('/role', ({ body }, res) => {
             message: 'success',
             data: body
         });
+    });
+});
+
+router.put('/role/:id', (req, res) => {
+    const errors = inputCheck(
+        req.body,
+        'title',
+        'salary',
+        'department_id'
+    );
+
+    const sql = `UPDATE role
+                SET title = ?,
+                salary = ?,
+                department_id = ?
+                WHERE id = ?`;
+    const params = [
+        req.body.title,
+        req.body.salary,
+        req.body.department_id,
+        req.params.id
+    ];
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.status(400).json({ error: err.message });
+            return;
+        } else if (!result.affectedRows) {
+            res.json({
+                message: 'Role not found'
+            });
+        } else {
+            res.json({
+                message: 'success',
+                data: req.body,
+                changes: result.affectedRows
+            });
+        }
     });
 });
 
