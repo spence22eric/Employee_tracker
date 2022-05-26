@@ -1,5 +1,4 @@
 const express = require('express');
-const { title } = require('process');
 const router = express.Router();
 const db = require('../../db/connection');
 const inputCheck = require('../../utils/inputCheck');
@@ -36,6 +35,7 @@ router.get('/role/:id', (req, res) => {
     });
 });
 
+// create role
 router.post('/role', ({ body }, res) => {
     const errors = inputCheck(
         body,
@@ -66,6 +66,7 @@ router.post('/role', ({ body }, res) => {
     });
 });
 
+// update role
 router.put('/role/:id', (req, res) => {
     const errors = inputCheck(
         req.body,
