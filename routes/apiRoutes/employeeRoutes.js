@@ -8,7 +8,7 @@ const inputCheck = require('../../utils/inputCheck');
 router.get('/employees', (req, res) => {
     const sql = `SELECT * FROM employee
                 LEFT JOIN role
-                ON employee.id = role.id`
+                ON employee.role_id = role.id`
 
     db.query(sql, (err, rows) => {
         if (err) {
@@ -26,7 +26,7 @@ router.get('/employees', (req, res) => {
 router.get('/employee/:id', (req, res) => {
     const sql = `SELECT * FROM employee                
                 LEFT JOIN role
-                ON employee.id = role.id
+                ON employee.role_id = role.id
                 WHERE employee.id = ?`
     const params = req.params.id
 
@@ -60,7 +60,7 @@ router.post('/employee', ({ body }, res) => {
     const params = [
         body.first_name,
         body.last_name,
-        body.role_id
+        body.role_id,
     ];
 
     db.query(sql, params, (err, result) => {
@@ -72,6 +72,46 @@ router.post('/employee', ({ body }, res) => {
             message: 'success',
             data: body
         });
+    });
+});
+
+router.put('/employee/:id', (req, res) => {
+    const errors = inputCheck(
+        req.body,
+        'first_name',
+        'last_name',
+        'role_id'
+    );
+    if (errors) {
+        res.status(400).json({ error: errors });
+        return;
+    }
+
+    const sql = `UPDATE employee SET first_name = ?,
+                last_name = ?, role_id = ?
+                WHERE id = ?`
+    const params = [
+        req.body.first_name,
+        req.body.last_name,
+        req.body.role_id,
+        req.params.id
+    ];
+
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.status(400).json({ error: err.message });
+            return;
+        } else if (!result.affectedRows) {
+            res.json({
+                message: 'Employee not found'
+            });
+        } else {
+            res.json({
+                message: 'success',
+                data: req.body,
+                changes: result.affectedRows
+            });
+        }
     });
 });
 

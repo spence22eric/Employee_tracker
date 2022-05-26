@@ -78,6 +78,7 @@ router.put('/department/:id', (req, res) => {
     db.query(sql, params, (err, result) => {
         if (err) {
             res.status(400).json({ error: err.message });
+            return;
         } else if (!result.affectedRows) {
             res.json({
                 message: 'department not found'
