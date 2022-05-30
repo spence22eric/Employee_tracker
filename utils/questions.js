@@ -26,7 +26,7 @@ module.exports = function () {
             {
                 name: 'addDepartment',
                 type: 'input',
-                message: ' Please enter the name of the department you would like to add.',
+                message: 'Please enter the name of the department you would like to add:',
                 when: (answer) => {
                     if (answer.options == 'Add a department') {
                         return true;
@@ -46,7 +46,7 @@ module.exports = function () {
             {
                 name: 'addRole',
                 type: 'input',
-                message: 'Please enter the name of the role you would like to add.',
+                message: 'Please enter the name of the role you would like to add:',
                 when: (answer) => {
                     if (answer.options == 'Add a role') {
                         return true;
@@ -65,7 +65,7 @@ module.exports = function () {
             {
                 name: 'roleSalary',
                 type: 'input',
-                message: 'Enter the role salary',
+                message: 'Enter the role salary:',
                 when: ({addRole}) => {
                     if (addRole) {
                         return true;
@@ -88,7 +88,7 @@ module.exports = function () {
             {
                 name: 'roleDepartment',
                 type: 'input',
-                message: 'Enter the associated department id',
+                message: 'Enter the associated department id:',
                 when: ({roleSalary}) => {
                     if (roleSalary) {
                         return true;
@@ -99,6 +99,65 @@ module.exports = function () {
                 validate: answer => {
                     if (isNaN(answer)) {
                         console.log('Please enter a number id corresponding to an existing department.')
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            },
+            {
+                name: 'employeeFirstName',
+                type: 'input',
+                message: 'Enter employee\'s first name',
+                when: answer => {
+                    if (answer.options == 'Add an employee') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                validate: answer => {
+                    if (isNaN(answer)) {
+                        return true; 
+                    } else {
+                        console.log(' This field cannot contain numbers')
+                        return false;
+                    }
+                }
+            },
+            {
+                name: 'employeeLastName',
+                type: 'input',
+                message: 'Enter employee\'s last name',
+                when: ({ employeeFirstName }) => {
+                    if (employeeFirstName) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                validate: answer => {
+                    if (isNaN(answer)) {
+                        return true; 
+                    } else {
+                        console.log(' This field cannot contain numbers')
+                        return false;
+                    }
+                }
+            },
+            {
+                name: 'employeeRole',
+                type: 'input',
+                message: 'Please provide an existing role id for the new employee:',
+                when: ({ employeeLastName }) => {
+                    if (employeeLastName) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                validate: answer => {
+                    if (isNaN(answer)) {
                         return false;
                     } else {
                         return true;
@@ -123,8 +182,12 @@ module.exports = function () {
                 queryUtils.createDepartment(db, answers);
             }
 
-            if (answers.options == 'Add a role' && (answers.roleSalary) && (answers.roleDepartment)) {
+            if ((answers.roleSalary) && (answers.roleDepartment)) {
                 queryUtils.createRole(db, answers);
+            }
+
+            if ((answers.employeeFirstName) && (answers.employeeLastName) && (answers.employeeRole)) {
+                queryUtils.createEmployee(db, answers);
             }
         });
 }

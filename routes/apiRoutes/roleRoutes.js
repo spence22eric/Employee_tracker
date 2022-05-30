@@ -5,7 +5,7 @@ const inputCheck = require('../../utils/inputCheck');
 
 // get all roles
 router.get('/roles', (req, res) => {
-    const sql = 'SELECT * FROM role ORDER BY title';
+    const sql = 'SELECT * FROM role ORDER BY department_id';
 
     db.query(sql, (err, rows) => {
         if (err) {

@@ -7,7 +7,7 @@ const cTable = require('console.table');
 
 //     db.query(sql, params, (err, row) => {
 //         if (err) throw err;
-        
+
 //         if (!row || row == null || row == '') {
 //             console.log('That department does not exist!');
 //             return false;
@@ -17,6 +17,7 @@ const cTable = require('console.table');
 //     });    
 // }
 
+// get all departments
 function queryDepartments(db) {
 
     const sql = `SELECT * FROM department`
@@ -29,9 +30,10 @@ function queryDepartments(db) {
     });
 };
 
+// get all roles
 function queryRoles(db) {
 
-    const sql = 'SELECT * FROM role ORDER BY title';
+    const sql = 'SELECT * FROM role ORDER BY department_id';
 
     db.query(sql, (err, rows) => {
         if (err) throw err;
@@ -41,6 +43,7 @@ function queryRoles(db) {
     });
 }
 
+// get all employees
 function queryEmployees(db) {
     const sql = `SELECT * FROM employee
                 LEFT JOIN role
@@ -54,6 +57,7 @@ function queryEmployees(db) {
     });
 }
 
+// create new department
 function createDepartment(db, answers) {
     const sql = `INSERT INTO department (name) VALUES (?)`;
     const params = [
@@ -68,13 +72,14 @@ function createDepartment(db, answers) {
     });
 }
 
+// create new role
 function createRole(db, answers) {
     const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
     const params = [
         answers.addRole,
         answers.roleSalary,
         answers.roleDepartment
-    ];   
+    ];
 
     db.query(sql, params, (err, result) => {
         if (err) throw err;
@@ -84,9 +89,29 @@ function createRole(db, answers) {
     })
 }
 
+// create new employee
+function createEmployee(db, answers) {
+    const sql = `INSERT INTO employee (first_name, last_name, role_id)
+                VALUES (?, ?, ?)`
+
+    const params = [
+        answers.employeeFirstName,
+        answers.employeeLastName,
+        answers.employeeRole,
+    ];
+
+    db.query(sql, params, (err, result) => {
+        if (err) throw err;
+        
+        console.log(`${answers.employeeFirstName} ${answers.employeeLastName} added to the employee list`);
+        return questions();
+    });
+}
+
 module.exports.createRole = createRole;
 module.exports.queryDepartments = queryDepartments;
 module.exports.queryRoles = queryRoles;
 module.exports.queryEmployees = queryEmployees;
 module.exports.createDepartment = createDepartment;
+module.exports.createEmployee = createEmployee;
 // module.exports.verifyExists = verifyExists;
