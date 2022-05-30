@@ -18,11 +18,13 @@ app.use((req, res) => {
 
 db.connect(err => {
     if (err) throw err;
-    console.log('Database connected.');
+    // console.log('Database connected.');
     app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
+        // console.log(`Server running on port ${PORT}`);
+        questions();
     });
 });
+
 
 
 

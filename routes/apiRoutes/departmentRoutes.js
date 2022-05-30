@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../../db/connection');
 const inputCheck = require('../../utils/inputCheck');
+const queryUtils = require('../../utils/query-utils/query-utils.js');
 
 // get all departments
 router.get('/departments', (req, res) => {
@@ -43,12 +44,12 @@ router.post('/department', ({ body }, res) => {
         'name'
     );
     if (errors) {
-        res.status(400).json({ error: errors});
+        res.status(400).json({ error: errors });
         return;
     }
 
     const sql = `INSERT INTO department (name) VALUES (?)`;
-    const params = [        
+    const params = [
         body.name
     ];
 
@@ -100,7 +101,7 @@ router.delete('/department/:id', (req, res) => {
 
     db.query(sql, params, (err, result) => {
         if (err) {
-            res.status(400).json({ error: res.message});
+            res.status(400).json({ error: res.message });
         } else if (!result.affectedRows) {
             res.json({
                 message: 'department not found'

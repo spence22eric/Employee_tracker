@@ -1,4 +1,7 @@
 const inquirer = require('inquirer');
+const getDepartments = require('../routes/apiRoutes/departmentRoutes');
+const queryUtils = require('./query-utils/query-utils');
+const db = require('../db/connection');
 
 
 module.exports = function () {    
@@ -22,7 +25,18 @@ module.exports = function () {
             }
         ])
         .then(answers => {
-            console.log(answers);
+            if (answers.options == 'View all departments') {
+                queryUtils.queryDepartments(db);
+            }
+            
+            if (answers.options == 'View all roles') {
+                queryUtils.queryRoles(db);
+            }
+            
+            if (answers.options == 'View all employees') {
+                queryUtils.queryEmployees(db);
+            }
+            
         });
 
 }

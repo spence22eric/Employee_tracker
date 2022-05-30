@@ -8,7 +8,7 @@
     "nodemon": "^2.0.16"
   },
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "echo bash && node server.js",
     "seed": "node db/seeds.js"
   },
   "name": "employee_tracker",
