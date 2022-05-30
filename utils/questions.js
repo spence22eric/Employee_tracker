@@ -66,7 +66,7 @@ module.exports = function () {
                 name: 'roleSalary',
                 type: 'input',
                 message: 'Enter the role salary:',
-                when: ({addRole}) => {
+                when: ({ addRole }) => {
                     if (addRole) {
                         return true;
                     } else {
@@ -89,7 +89,7 @@ module.exports = function () {
                 name: 'roleDepartment',
                 type: 'input',
                 message: 'Enter the associated department id:',
-                when: ({roleSalary}) => {
+                when: ({ roleSalary }) => {
                     if (roleSalary) {
                         return true;
                     } else {
@@ -118,7 +118,7 @@ module.exports = function () {
                 },
                 validate: answer => {
                     if (isNaN(answer)) {
-                        return true; 
+                        return true;
                     } else {
                         console.log(' This field cannot contain numbers')
                         return false;
@@ -138,7 +138,7 @@ module.exports = function () {
                 },
                 validate: answer => {
                     if (isNaN(answer)) {
-                        return true; 
+                        return true;
                     } else {
                         console.log(' This field cannot contain numbers')
                         return false;
@@ -163,6 +163,19 @@ module.exports = function () {
                         return true;
                     }
                 }
+            },
+            {
+                name: 'updateEmployeeChoices',
+                type: 'list',
+                message: 'Which employee\'s role would you like to update?',
+                when: (answer) => {
+                    if (answer.options == 'Update an employee role') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                choices: []
             }
         ])
         .then(answers => {

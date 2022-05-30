@@ -108,10 +108,47 @@ function createEmployee(db, answers) {
     });
 }
 
+function getEmployeeList(db) {
+    const sql = `SELECT first_name, last_name FROM employee`
+
+    db.query(sql, (err, rows) => {
+        if (err) throw err;
+        
+    })
+}
+
+function updateEmployee(db, answers) {
+    // const sql = `UPDATE employee SET role_id = ?
+    //             WHERE id = ?`
+    // const params = [
+    //     req.body.role_id,
+    //     req.params.id
+    // ];
+
+    // db.query(sql, params, (err, result) => {
+    //     if (err) {
+    //         res.status(400).json({ error: err.message });
+    //         return;
+    //     } else if (!result.affectedRows) {
+    //         res.json({
+    //             message: 'Employee not found'
+    //         });
+    //     } else {
+    //         res.json({
+    //             message: 'success',
+    //             data: req.body,
+    //             changes: result.affectedRows
+    //         });
+    //     }
+    // });
+}
+
 module.exports.createRole = createRole;
 module.exports.queryDepartments = queryDepartments;
 module.exports.queryRoles = queryRoles;
 module.exports.queryEmployees = queryEmployees;
 module.exports.createDepartment = createDepartment;
 module.exports.createEmployee = createEmployee;
+module.exports.updateEmployee = updateEmployee;
+module.exports.getEmployeeList = getEmployeeList;
 // module.exports.verifyExists = verifyExists;
