@@ -22,6 +22,26 @@ module.exports = function () {
                     'Update an employee role'
                 ]
 
+            },
+            {
+                name: 'addDepartment',
+                type: 'input',
+                message:' Please enter the name of the department you would like to add.',
+                when: (answer) => {
+                    if (answer.options == 'Add a department') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                validate: newDepartment => {
+                    if (newDepartment) {
+                        return true;
+                    } else {
+                        console.log('Please enter a valid department name.');
+                        return false;
+                    }
+                }
             }
         ])
         .then(answers => {
@@ -36,7 +56,10 @@ module.exports = function () {
             if (answers.options == 'View all employees') {
                 queryUtils.queryEmployees(db);
             }
-            
+
+            if (answers.options == 'Add a department') {
+                queryUtils.addDepartment(db, answers);               
+            }            
         });
 
 }
