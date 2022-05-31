@@ -1,5 +1,6 @@
 const questions = require('../../utils/questions');
 const cTable = require('console.table');
+const inquirer = require('inquirer');
 
 // function verifyExists(db, answers) {
 //     const sql = `SELECT * FROM department WHERE id=?`;
@@ -102,7 +103,7 @@ function createEmployee(db, answers) {
 
     db.query(sql, params, (err, result) => {
         if (err) throw err;
-        
+
         console.log(`${answers.employeeFirstName} ${answers.employeeLastName} added to the employee list`);
         return questions();
     });
@@ -113,7 +114,21 @@ function getEmployeeList(db) {
 
     db.query(sql, (err, rows) => {
         if (err) throw err;
-        
+        let employeeChoices = rows.map(employee => {
+            return { name: `${employee.first_name} ${employee.last_name}`, value: employee.id }
+        });
+        inquirer
+            .prompt([
+                {
+                    name: 'employeeList',
+                    type: 'list',
+                    message: 'Which employee\'s role would you like to update?',
+                    choices: employeeChoices
+                }
+            ])
+            .then(answers => {
+                JSON.stringify(console.log(answers));
+            })
     })
 }
 

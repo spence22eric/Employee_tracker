@@ -164,19 +164,19 @@ module.exports = function () {
                     }
                 }
             },
-            {
-                name: 'updateEmployeeChoices',
-                type: 'list',
-                message: 'Which employee\'s role would you like to update?',
-                when: (answer) => {
-                    if (answer.options == 'Update an employee role') {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                },
-                choices: []
-            }
+            // {
+            //     name: 'updateEmployeeChoices',
+            //     type: 'list',
+            //     message: 'Which employee\'s role would you like to update?',
+            //     when: (answer) => {
+            //         if (answer.options == 'Update an employee role') {
+            //             return true;
+            //         } else {
+            //             return false;
+            //         }
+            //     },
+            //     choices: [queryUtils.getEmployeeList(db)]
+            // }
         ])
         .then(answers => {
             if (answers.options == 'View all departments') {
@@ -202,5 +202,8 @@ module.exports = function () {
             if ((answers.employeeFirstName) && (answers.employeeLastName) && (answers.employeeRole)) {
                 queryUtils.createEmployee(db, answers);
             }
+            if (answers.options == 'Update an employee role') {
+                queryUtils.getEmployeeList(db);
+            }          
         });
 }
